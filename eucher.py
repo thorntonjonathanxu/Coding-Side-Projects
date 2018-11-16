@@ -1,5 +1,9 @@
 import random
 
+
+suit_name = ['Clubs', 'Diamonds' ,'Hearts', 'Spades']
+number_rank = ['9','10','Jack','Queen','King','Ace']
+
 class Card(object):
 
     def __init__(self, suit, number):
@@ -7,7 +11,7 @@ class Card(object):
         self.number = number
 
     def __repr__(self):
-        return "%s of %s" % (self.suit, self.number)
+        return "%s of %s" % (number_rank[self.number],suit_name[self.suit])
 
 
 class Deck(object):
@@ -34,8 +38,8 @@ class Deck(object):
     def shuffle(self):
         return random.shuffle(self.cards)
 
-    def deal_card(self,hand,Card):
-        hand.add_card(Card)
+    def deal_card(self,Hand,Card):
+        Hand.add_card(Card)
         return self.remove_card(Card)
 
 class Hand(object):
@@ -50,8 +54,10 @@ class Hand(object):
         self.cards.pop(Card)
 
     def print_hand(self):
+        temp_hand = ''
         for card in self.cards:
-            print(card)
+            temp_hand += str(card) + ', '
+        print(temp_hand)
         print('The Hand has %s cards' % len(self.cards))
 
 def main():
@@ -61,21 +67,22 @@ def main():
     player2 = Hand()
     player3 = Hand()
     player4 = Hand()
+    player5 = Hand()
+    game = [player1,player2,player3,player4,player5]
     print("Dealing Cards")
-    d.shuffle()
+    # d.shuffle()
     while(len(d.cards)!=0):
-        d.deal_card(player1,d.cards[len(d.cards)-1])
-        d.deal_card(player2,d.cards[len(d.cards)-2])
-        # d.deal_card(player3,d.cards[len(d.cards)-3])
-        # d.deal_card(player4,d.cards[len(d.cards)-4])
-    print('Player 1:')
-    player1.print_hand()
-    print('Player 2:')
-    player2.print_hand()
-    # print('Player 3:')
-    # player3.print_hand()
-    # print('Player 4:')
-    # player4.print_hand()
+        for players in game:
+            if(len(d.cards) == 0):
+                break
+            else:
+                d.deal_card(players,d.cards[len(d.cards)-1])
+    count = 1
+    for players in game:
+        print('Player {0}'.format(count))
+        count += 1
+        players.print_hand()
+
     d.print_deck()
 
 main()
