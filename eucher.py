@@ -2,7 +2,7 @@ import random
 
 
 suit_name = ['Clubs', 'Diamonds' ,'Hearts', 'Spades']
-usuit_name = ['\023143', '\023146' ,'\023145', '\023140']
+usuit_name = [u'\u2663', u'\u2666' ,u'\u2665', u'\u2660']
 number_rank = ['1','2','3','4','5','6','7','8','9','10','Jack','Queen','King','Ace']
 
 class Card(object):
@@ -12,10 +12,16 @@ class Card(object):
         self.number = number
 
     def __repr__(self):
-        if(len(number_rank[self.number])== 1):
-            return "%s%s" % (number_rank[self.number][0],suit_name[self.suit][0])
+        if(len(number_rank[self.number])== 1 or len(number_rank[self.number])> 2):
+            return "%s%s" % (number_rank[self.number][0],usuit_name[self.suit])
         else:
-            return "%s%s" % (number_rank[self.number],suit_name[self.suit][0])
+            return "%s%s" % (number_rank[self.number],usuit_name[self.suit])
+
+    def getSuit(self):
+        return self.suit
+
+    def getNumber(self):
+        return self.number
 
 class Deck(object):
 
@@ -67,12 +73,14 @@ class Hand(object):
     def getHandSize(self):
         print('The Hand has %s cards' % len(self.cards))
 
+    # def sortHand(self):
+    #     for card in self.cards:
+            
+
 def main():
     d = Deck()
     d.getDeckSize()
-    for n in usuit_name:
-        print(n)
-    player_count = 3
+    player_count = 6
     game = []
     for player in range(player_count):
         player = Hand()
