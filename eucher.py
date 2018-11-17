@@ -1,5 +1,6 @@
 import random
 
+#adding a few test stuffs
 
 suit_name = ['Clubs', 'Diamonds' ,'Hearts', 'Spades']
 usuit_name = [u'\u2663', u'\u2666' ,u'\u2665', u'\u2660']
