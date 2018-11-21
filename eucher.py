@@ -81,7 +81,8 @@ class Hand(object):
 def main():
     d = Deck()
     d.getDeckSize()
-    player_count = 6
+    player_count = int(input('How many players are there?'))
+
     game = []
     for player in range(player_count):
         player = Hand()
