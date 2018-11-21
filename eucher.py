@@ -30,7 +30,7 @@ class Deck(object):
     def __init__(self):
         self.cards = []
         for suit in range(4):
-            for number in range(13):
+            for number in range(8,14):
                 card = Card(suit, number)
                 self.cards.append(card)
 
@@ -84,23 +84,28 @@ class Hand(object):
 def main():
     d = Deck()
     d.getDeckSize()
-    player_count = int(input('How many players are there?'))
+    # Dynamic player count based on input
+    # player_count = int(input('How many players are there?'))
 
-    game = []
+
+
+    #Defines the each player in the game. Each player has a unique hand that they use during the game.
+    player_list = []
+    player_count = 4
     for player in range(player_count):
         player = Hand()
-        game.append(player)
+        player_list.append(player)
 
     print("Dealing Cards")
-    # d.shuffle()
+    d.shuffle()
     while(len(d.cards)!=0):
-        for players in game:
+        for players in player_list:
             if(len(d.cards) == 0):
                 break
             else:
                 d.dealCard(players,d.cards[len(d.cards)-1])
     count = 1
-    for players in game:
+    for players in player_list:
         print('Player {0}'.format(count))
         players.sortHand()
         players.printHand()
