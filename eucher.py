@@ -35,8 +35,7 @@ class Deck(object):
                 self.cards.append(card)
 
     def print_deck(self):
-        for card in self.cards:
-            print(card)
+        return self.cards
     
     def getDeckSize(self):
         print('The Deck has %s cards' % len(self.cards))
@@ -56,8 +55,10 @@ class Deck(object):
         return self.removeCard(Card)
 
 class Hand(object):
-    def __init__(self):
+    def __init__(self,player_num):
         self.cards = []
+        self.score = 0
+        self.player_num = player_num
 
     def addCard(self,Card):
         new_card = Card
@@ -67,7 +68,7 @@ class Hand(object):
         self.cards.pop(Card)
 
     def printHand(self):
-        print(self.cards)
+        return self.cards
     
     def getHandSize(self):
         print('The Hand has %s cards' % len(self.cards))
@@ -80,37 +81,60 @@ class Hand(object):
 #     def __init__(self, Deck, ):
 #         self.
 
-
 def main():
     d = Deck()
     d.getDeckSize()
     # Dynamic player count based on input
     # player_count = int(input('How many players are there?'))
 
-
-
     #Defines the each player in the game. Each player has a unique hand that they use during the game.
-    player_list = []
+    player_list = list()
     player_count = 4
+    team_One = list()
+    team_Two = list()
+    count = 1
     for player in range(player_count):
-        player = Hand()
+        player = Hand(count)
+        if(count % 2 != 0):
+            team_One.append(player)
+        else:
+            team_Two.append(player)
+        count += 1
         player_list.append(player)
+    print('Team One: {0} \nTeam Two: {1}'.format(team_One,team_Two))
 
     print("Dealing Cards")
-    d.shuffle()
-    while(len(d.cards)!=0):
+    while(len(d.cards)!=4):
         for players in player_list:
             if(len(d.cards) == 0):
                 break
             else:
                 d.dealCard(players,d.cards[len(d.cards)-1])
-    count = 1
-    for players in player_list:
-        print('Player {0}'.format(count))
-        players.sortHand()
-        players.printHand()
-        count += 1
 
-    d.print_deck()
+    #Outputs current player hands:
+    for players in player_list:
+        players.sortHand()
+        print('Player {0}: {1}'.format(players.player_num,players.printHand()))
+        
+    print('Trump: {0}'.format(d.cards[0]))
+
+    currentPlayer = 0
+    current_set = []
+    for i in range(4):
+        trump = d.cards[0].suit
+        played_Card = 10
+        played_Card = int(input('Player {0}: Which card do you want to remove?\n{1}\n'.format(player_list[currentPlayer].player_num,player_list[currentPlayer].cards)))
+
+        #Error checking for current player input to validate it is in range
+        while(played_Card >= len(player_list[currentPlayer].cards)):
+            played_Card = int(input('Sorry that was an invalid input. Please choose a number between 0-{0}. \nCurrent Hand: {1}\n'.format(len(player_list[currentPlayer].cards)-1,player_list[currentPlayer].cards)))
+        current_set.append(player_list[currentPlayer].cards[played_Card])
+        player_list[currentPlayer].removeCard(played_Card)
+
+        print('Player {0}: {1}'.format(player_list[currentPlayer].player_num,player_list[currentPlayer].cards))
+        if(currentPlayer == 3):
+            currentPlayer = 0
+        else:
+            currentPlayer += 1
 
 main()
