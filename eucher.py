@@ -118,23 +118,33 @@ def main():
         
     print('Trump: {0}'.format(d.cards[0]))
 
-    currentPlayer = 0
-    current_set = []
-    for i in range(4):
-        trump = d.cards[0].suit
-        played_Card = 10
-        played_Card = int(input('Player {0}: Which card do you want to remove?\n{1}\n'.format(player_list[currentPlayer].player_num,player_list[currentPlayer].cards)))
+    currentPlayer = 3
 
-        #Error checking for current player input to validate it is in range
-        while(played_Card >= len(player_list[currentPlayer].cards)):
-            played_Card = int(input('Sorry that was an invalid input. Please choose a number between 0-{0}. \nCurrent Hand: {1}\n'.format(len(player_list[currentPlayer].cards)-1,player_list[currentPlayer].cards)))
-        current_set.append(player_list[currentPlayer].cards[played_Card])
-        player_list[currentPlayer].removeCard(played_Card)
+    for set in range(5):
+        current_set = {}
+        for i in range(4):
+            trump = d.cards[0].suit
+            played_Card = 10
+            played_Card = int(input('Player {0}: Which card do you want to remove?\n{1}\n'.format(player_list[currentPlayer].player_num,player_list[currentPlayer].cards)))
 
-        print('Player {0}: {1}'.format(player_list[currentPlayer].player_num,player_list[currentPlayer].cards))
-        if(currentPlayer == 3):
-            currentPlayer = 0
-        else:
-            currentPlayer += 1
+            #Error checking for current player input to validate it is in range
+            while(played_Card >= len(player_list[currentPlayer].cards)):
+                played_Card = int(input('Sorry that was an invalid input. Please choose a number between 0-{0}. \nCurrent Hand: {1}\n'.format(len(player_list[currentPlayer].cards)-1,player_list[currentPlayer].cards)))
+            current_set.update({currentPlayer : player_list[currentPlayer].cards[played_Card]})
+            player_list[currentPlayer].removeCard(played_Card)
+
+            print('Player {0}: {1}'.format(player_list[currentPlayer].player_num,player_list[currentPlayer].cards))
+            if(currentPlayer == 3):
+                currentPlayer = 0
+            else:
+                currentPlayer += 1
+            print('Current Set: {0}'.format(current_set))
+        #Calculates the current winner
+        # Code goes here
+        #
+        # winner = 0
+        # if(winner % 2 == 0):
+            
+
 
 main()
