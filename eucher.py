@@ -1,4 +1,5 @@
 import random
+import operator
 
 #adding a 
 
@@ -40,43 +41,45 @@ class Deck(object):
     def getDeckSize(self):
         print('The Deck has %s cards' % len(self.cards))
     
-    def add_card(self,Card):
+    def addCard(self,Card):
         new_card = Card
         return self.cards.append(new_card)
 
-    def remove_card(self,Card):
+    def removeCard(self,Card):
         return self.cards.pop()
 
     def shuffle(self):
         return random.shuffle(self.cards)
 
-    def deal_card(self,Hand,Card):
-        Hand.add_card(Card)
-        return self.remove_card(Card)
+    def dealCard(self,Hand,Card):
+        Hand.addCard(Card)
+        return self.removeCard(Card)
 
 class Hand(object):
     def __init__(self):
         self.cards = []
 
-    def add_card(self,Card):
+    def addCard(self,Card):
         new_card = Card
         self.cards.append(new_card)
 
-    def remove_card(self,Card):
+    def removeCard(self,Card):
         self.cards.pop(Card)
 
-    def print_hand(self):
-        temp_hand = ''
-        for card in self.cards:
-            temp_hand += str(card) + ', '
-        print(temp_hand)
+    def printHand(self):
+        print(self.cards)
     
     def getHandSize(self):
         print('The Hand has %s cards' % len(self.cards))
 
-    # def sortHand(self):
-    #     for card in self.cards:
-            
+    def sortHand(self):
+        self.cards = sorted(self.cards, key=operator.attrgetter('suit','number'),reverse = False)
+
+
+# class Game(object):
+#     def __init__(self, Deck, ):
+#         self.
+
 
 def main():
     d = Deck()
@@ -95,12 +98,13 @@ def main():
             if(len(d.cards) == 0):
                 break
             else:
-                d.deal_card(players,d.cards[len(d.cards)-1])
+                d.dealCard(players,d.cards[len(d.cards)-1])
     count = 1
     for players in game:
         print('Player {0}'.format(count))
+        players.sortHand()
+        players.printHand()
         count += 1
-        players.print_hand()
 
     d.print_deck()
 
