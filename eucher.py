@@ -111,7 +111,9 @@ def main():
             team_Two.append(player)
         count += 1
         player_list.append(player)
-    # print('Team One: {0} \nTeam Two: {1}'.format(team_One,team_Two))
+
+    #Dealing cards for the current game. Each player is dealt 5 cards, leaving the deck with 4 cards. 
+    #The 
     print("Dealing Cards")
     while(len(d.cards)!=4):
         for players in player_list:
@@ -119,6 +121,7 @@ def main():
                 break
             else:
                 d.dealCard(players,d.cards[len(d.cards)-1])
+    trump = d.cards[0].suit
 
     #Outputs current player hands:
     for players in player_list:
@@ -129,11 +132,13 @@ def main():
     print('Trump: {0}'.format(suit_name[d.cards[0].suit]))
 
     currentPlayer = 0
-    trump = d.cards[0].suit
+    #This loop represents a single game played. Each player will play their entire hand and the score would be calculated based on the total number of sets collected.
     for set in range(5):
         current_set = {}
+        #This loop represnts a single set. Each play would play a card and the game would calculate the winner for the given set.
+        leadingPlay = 0
         for i in range(4):
-            print(player_list[currentPlayer].suitCount)
+            print('Current Suits {0}'.format(player_list[currentPlayer].suitCount))
             played_Card = 10            #Used 10 as a number larger than 5
             played_Card = int(input('Player {0}: Which card do you want to remove?\n{1}\n'.format(player_list[currentPlayer].player_num,player_list[currentPlayer].cards)))
 
@@ -165,18 +170,33 @@ def main():
             current_set.update({currentPlayer : player_list[currentPlayer].cards[played_Card]})
             player_list[currentPlayer].removeCard(played_Card)
 
-            print('Player {0}: {1}'.format(player_list[currentPlayer].player_num,player_list[currentPlayer].cards))
+            print('New Hand for: Player {0}: {1}'.format(player_list[currentPlayer].player_num,player_list[currentPlayer].cards))
+            
+
+            #If the first player, we assume that the leading play is the first player. 
+            if(len(current_set) == 1):
+                leadingPlay = current_set[0]
+                print(leadingPlay)
+            # elif()
+
+
+            #Assigns the next player in the list
             if(currentPlayer == 3):
                 currentPlayer = 0
             else:
                 currentPlayer += 1
             print('Current Set: {0}'.format(current_set))
-        #Calculates the current winner
-        # Code goes here
+        #Calculates the winner for the current set. 
+        
         #
         # winner = 0
         # if(winner % 2 == 0):
-            
+    #Calculate the score of the winning team in the game.
+    #If Score is 4-1 or 3-2 then increment the winning score by 1
+    #If Score is 5-0 increment the winning score by 2
+    # print('Team One Score: {0}'.format())
+    # print('Team Two Score: {0}'.format())
+
 
 
 main()
