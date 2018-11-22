@@ -59,13 +59,16 @@ class Hand(object):
         self.cards = []
         self.score = 0
         self.player_num = player_num
+        self.suitCount = [0,0,0,0]          #Clubs, Diamonds, Hearts, Spades
 
     def addCard(self,Card):
         new_card = Card
         self.cards.append(new_card)
+        self.incrementSuit(Card)
 
     def removeCard(self,Card):
         self.cards.pop(Card)
+        self.decrementSuit(Card)
 
     def printHand(self):
         return self.cards
@@ -76,6 +79,12 @@ class Hand(object):
     def sortHand(self):
         self.cards = sorted(self.cards, key=operator.attrgetter('suit','number'),reverse = False)
 
+    def incrementSuit(self,Card):
+        self.suitCount[Card.suit] += 1
+    
+    def decrementSuit(self,Card):
+        self.suitCount[Card.suit] -= 1
+
 
 # class Game(object):
 #     def __init__(self, Deck, ):
@@ -84,6 +93,7 @@ class Hand(object):
 def main():
     d = Deck()
     d.getDeckSize()
+    d.shuffle()
     # Dynamic player count based on input
     # player_count = int(input('How many players are there?'))
 
@@ -101,8 +111,7 @@ def main():
             team_Two.append(player)
         count += 1
         player_list.append(player)
-    print('Team One: {0} \nTeam Two: {1}'.format(team_One,team_Two))
-
+    # print('Team One: {0} \nTeam Two: {1}'.format(team_One,team_Two))
     print("Dealing Cards")
     while(len(d.cards)!=4):
         for players in player_list:
@@ -115,21 +124,28 @@ def main():
     for players in player_list:
         players.sortHand()
         print('Player {0}: {1}'.format(players.player_num,players.printHand()))
-        
-    print('Trump: {0}'.format(d.cards[0]))
 
-    currentPlayer = 3
+    print('Trump: {0}'.format(d.cards[0]))
+    print('Trump: {0}'.format(suit_name[d.cards[0].suit]))
+
+    currentPlayer = 0
 
     for set in range(5):
         current_set = {}
         for i in range(4):
             trump = d.cards[0].suit
-            played_Card = 10
+            print(player_list[currentPlayer].suitCount)
+            played_Card = 10            #Used 10 as a number larger than 5
             played_Card = int(input('Player {0}: Which card do you want to remove?\n{1}\n'.format(player_list[currentPlayer].player_num,player_list[currentPlayer].cards)))
 
             #Error checking for current player input to validate it is in range
             while(played_Card >= len(player_list[currentPlayer].cards)):
-                played_Card = int(input('Sorry that was an invalid input. Please choose a number between 0-{0}. \nCurrent Hand: {1}\n'.format(len(player_list[currentPlayer].cards)-1,player_list[currentPlayer].cards)))
+                if(len(current_set) == 0):
+                    played_Card = int(input('Sorry that was an invalid input. Please choose a number between 0-{0}. \nCurrent Hand: {1}\n'.format(len(player_list[currentPlayer].cards)-1,player_list[currentPlayer].cards)))
+                else:
+                    played_Card = int(input('Sorry that was an invalid input. Please choose a number between 0-{0}. {1} is the current suit for this set. \nCurrent Hand: {2}\n'.format(len(player_list[currentPlayer].cards)-1, suit_name[set_suit],player_list[currentPlayer].cards)))                    
+            if(len(current_set) == 0):
+                set_suit = player_list[currentPlayer].cards[played_Card].suit
             current_set.update({currentPlayer : player_list[currentPlayer].cards[played_Card]})
             player_list[currentPlayer].removeCard(played_Card)
 
