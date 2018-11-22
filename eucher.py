@@ -66,9 +66,9 @@ class Hand(object):
         self.cards.append(new_card)
         self.incrementSuit(Card)
 
-    def removeCard(self,Card):
-        self.cards.pop(Card)
-        self.decrementSuit(Card)
+    def removeCard(self,param_Card):
+        self.cards.pop(param_Card)
+        # self.decrementSuit(param_Card)
 
     def printHand(self):
         return self.cards
@@ -79,11 +79,11 @@ class Hand(object):
     def sortHand(self):
         self.cards = sorted(self.cards, key=operator.attrgetter('suit','number'),reverse = False)
 
-    def incrementSuit(self,Card):
-        self.suitCount[Card.suit] += 1
+    def incrementSuit(self,param_Card):
+        self.suitCount[param_Card.suit] += 1
     
-    def decrementSuit(self,Card):
-        self.suitCount[Card.suit] -= 1
+    def decrementSuit(self,param_Card):
+        self.suitCount[param_Card.suit] = self.suitCount[param_Card.suit] - 1
 
 
 # class Game(object):
@@ -129,23 +129,39 @@ def main():
     print('Trump: {0}'.format(suit_name[d.cards[0].suit]))
 
     currentPlayer = 0
-
+    trump = d.cards[0].suit
     for set in range(5):
         current_set = {}
         for i in range(4):
-            trump = d.cards[0].suit
             print(player_list[currentPlayer].suitCount)
             played_Card = 10            #Used 10 as a number larger than 5
             played_Card = int(input('Player {0}: Which card do you want to remove?\n{1}\n'.format(player_list[currentPlayer].player_num,player_list[currentPlayer].cards)))
 
-            #Error checking for current player input to validate it is in range
-            while(played_Card >= len(player_list[currentPlayer].cards)):
-                if(len(current_set) == 0):
+            #User input check conditions:
+            input_Validitiy = False
+            while(input_Validitiy == False):
+                if 0 <= played_Card <= len(player_list[currentPlayer].cards):
+                    #If it's the first player, suit is set for that set and user input is accepted
+                    if(len(current_set) == 0):
+                        flag = True
+                        set_suit = player_list[currentPlayer].cards[played_Card].suit
+                        break
+                    #Validates that the player isn't playing a card that is out of suit
+                    elif(player_list[currentPlayer].suitCount[set_suit] == 0):
+                        flag = True
+                        break
+                    elif(player_list[currentPlayer].cards[played_Card].suit == set_suit):
+                        flag = True
+                        break
+                    #Throws an error since a player holds a card that matches the current suit but failed to select that option
+                    else:
+                        played_Card = int(input('You must play a card that matches the current suit. Please chose a {0} in your hand. \nCurrent Hand: {1}\n'.format(suit_name[set_suit],player_list[currentPlayer].cards)))
+                #First player slected an input out of range
+                elif(len(current_set) == 0):
                     played_Card = int(input('Sorry that was an invalid input. Please choose a number between 0-{0}. \nCurrent Hand: {1}\n'.format(len(player_list[currentPlayer].cards)-1,player_list[currentPlayer].cards)))
+                #Second-Forth player selected an input out of range
                 else:
-                    played_Card = int(input('Sorry that was an invalid input. Please choose a number between 0-{0}. {1} is the current suit for this set. \nCurrent Hand: {2}\n'.format(len(player_list[currentPlayer].cards)-1, suit_name[set_suit],player_list[currentPlayer].cards)))                    
-            if(len(current_set) == 0):
-                set_suit = player_list[currentPlayer].cards[played_Card].suit
+                    played_Card = int(input('Sorry that was an invalid input. Please choose a number between 0-{0}. {1} is the current suit for this set. \nCurrent Hand: {2}\n'.format(len(player_list[currentPlayer].cards)-1, suit_name[set_suit],player_list[currentPlayer].cards)))   
             current_set.update({currentPlayer : player_list[currentPlayer].cards[played_Card]})
             player_list[currentPlayer].removeCard(played_Card)
 
