@@ -148,15 +148,12 @@ def main():
                 if 0 <= played_Card <= len(player_list[currentPlayer].cards):
                     #If it's the first player, suit is set for that set and user input is accepted
                     if(len(current_set) == 0):
-                        flag = True
                         set_suit = player_list[currentPlayer].cards[played_Card].suit
                         break
                     #Validates that the player isn't playing a card that is out of suit
                     elif(player_list[currentPlayer].suitCount[set_suit] == 0):
-                        flag = True
                         break
                     elif(player_list[currentPlayer].cards[played_Card].suit == set_suit):
-                        flag = True
                         break
                     #Throws an error since a player holds a card that matches the current suit but failed to select that option
                     else:
