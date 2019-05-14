@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css?family=M+PLUS+1p:400,500,700|Open+Sans:400,700');
+
+* {
+  font-family: 'Open Sans', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #b84c43;
+}
+
+header {
+  background-color: #f1e3d5;
+  padding: 20px;
+  text-align: center;
+  position: fixed;
+  width: 100%;
+
+}
+header > svg {
+  float: left;
+}
+header > h1,h2 {
+  color: #323234;
+  font-weight: bold; 
+}
+header > p {
+  color: #2D3477;
+}
+
+.fb-page {
+  padding: 5px;
+  text-align: center;
+}
+
+.sidenav {
+  height: 100%;
+  width: 320px;
+  position: fixed;
+  top: 0;
+  right: 0;
+  background-color: #323234;
+}

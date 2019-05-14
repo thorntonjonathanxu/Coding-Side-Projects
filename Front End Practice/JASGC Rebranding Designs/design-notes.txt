@@ -1,0 +1,12 @@
+Color Pallet for JAGSC:
+
+Logo Colors:
+    Red #D12E2E;
+    Blue #2D3477;
+    White #F6F8FA;
+
+Sample from web:
+    Tanish/White: #f1e3d5;
+    Light Blue: #637baa;
+    Light Red: #b84c43;
+    Faded Black: #323234;
