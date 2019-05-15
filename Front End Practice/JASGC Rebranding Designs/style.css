@@ -12,7 +12,8 @@ main {
   border: 2px solid #000;
 	margin-top: 180px;
 	height: 100%;
-	width: 100%;
+  width: 100%;
+  padding: 20px;
 }
 
 header {
@@ -38,16 +39,11 @@ header > p {
   color: #2D3477;
 }
 
+.logo {
+  
+}
+
 .fb-page {
   padding: 5px;
   text-align: center;
 }
-/* 
-.sidenav {
-  height: 100%;
-  width: 320px;
-  position: fixed;
-  top: 0;
-  right: 0;
-  background-color: #323234;
-} */
