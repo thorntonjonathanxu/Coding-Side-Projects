@@ -7,7 +7,7 @@ import re
 import sys
 
 # Complete the jumpingOnClouds function below.
-def jumpingOnClouds(c):
+def jumpingOnClouds(n,c):
 
     count = 0
     i = 0 
@@ -19,5 +19,5 @@ def jumpingOnClouds(c):
 n = int(input())
 c = list(map(int,input().strip().split()))
 c.insert(n,0)
-print(jumpingOnClouds(c))
+print(jumpingOnClouds(n,c))
 
