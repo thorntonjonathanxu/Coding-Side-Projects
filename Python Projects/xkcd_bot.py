@@ -1,6 +1,8 @@
 
 #Goal: Create a script that automatically downloads the most recent XKCD comic from a static html page and save it to a local directory with the incremented number and name of the comic.
 
+#Comic is deployed on Monday/Wednesday/Fridays so the bot should run on those days.
+
 #Created by Jon Thornton on 10/6/2019
 
 import shutil
