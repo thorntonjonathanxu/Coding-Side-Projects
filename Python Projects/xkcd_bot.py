@@ -14,14 +14,14 @@ content = page.text
 # Test Case from the attributes in the meta tags. All the content is at the top of the html doc. 
 # content = '<meta property="og:title" content="College Athletes"> <meta property="og:url" content="https://xkcd.com/2210/"> <meta property="og:image" content="https://imgs.xkcd.com/comics/college_athletes_2x.png"> <meta name="twitter:card" content="summary_large_image">'
 
-#Using Regex, parse out the high res Image.
 try:
-    #Alt Attribute contains the formal comic name.
+    #Meta tags contains the formal comic name and innumerated comic number.
     img_name = re.search('<meta property="og:title" content="(.+?)">', content).group(1) + '_2x.png'
     comic_num = re.search('<meta property="og:url" content="https://xkcd.com/(.+?)/">', content).group(1)
 
     #Finds high res link off HTML call
     img_link = 'https://imgs.xkcd.com/comics/' + re.search('<meta property="og:image" content="https://imgs.xkcd.com/comics/(.+?)_2x.png">', content).group(1) + '_2x.png'
+
 except AttributeError:
     print('Failed to load in the data')
 
