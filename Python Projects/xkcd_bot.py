@@ -4,36 +4,35 @@
 #Comic is deployed on Monday/Wednesday/Fridays so the bot should run on those days.
 
 #Created by Jon Thornton on 10/6/2019
-
+from bs4 import BeautifulSoup
 import shutil
 import requests
-import re
 
-#Calls the website to pulldown HTML content
+# Calls the website to pulldown HTML content
 page = requests.get('https://xkcd.com/')
 content = page.text
+soup = BeautifulSoup(content, 'html.parser')
 
-# Test Case from the attributes in the meta tags. All the content is at the top of the html doc. 
-# content = '<meta property="og:title" content="College Athletes"> <meta property="og:url" content="https://xkcd.com/2210/"> <meta property="og:image" content="https://imgs.xkcd.com/comics/college_athletes_2x.png"> <meta name="twitter:card" content="summary_large_image">'
+#Test Cases for link specific information
+# soup = BeautifulSoup('<meta content="Hours Before Departure" property="og:title"/>')
+# soup = BeautifulSoup('<meta content="https://xkcd.com/2211/" property="og:url"/>')
+# soup = BeautifulSoup('<meta content="https://imgs.xkcd.com/comics/hours_before_departure_2x.png" property="og:image"/>')
 
-try:
-    #Meta tags contains the formal comic name and innumerated comic number.
-    img_name = re.search('<meta property="og:title" content="(.+?)">', content).group(1) + '_2x.png'
-    comic_num = re.search('<meta property="og:url" content="https://xkcd.com/(.+?)/">', content).group(1)
+#Generates the content from 
+img_name = soup.find(property="og:title").get('content')
+comic_num = soup.find(property="og:url").get('content')[-5:-1] #Must pull in a 4 digit number or will break
+img_link = soup.find(property="og:image").get('content')
 
-    #Finds high res link off HTML call
-    img_link = 'https://imgs.xkcd.com/comics/' + re.search('<meta property="og:image" content="https://imgs.xkcd.com/comics/(.+?)_2x.png">', content).group(1) + '_2x.png'
+print(img_name)
+print(comic_num)
+print(img_link)
 
-except AttributeError:
-    print('Failed to load in the data')
-
-#Throws a request to pull down the image
 print('Requesting image')
 response = requests.get(img_link, stream=True)
 
 #Saves the file to a local directory with the name of the file.
-print('Downloading Img')
-filename = '{0} - {1}'.format(comic_num, img_name)
+print('Downloading Image')
+filename = '{0} - {1}.png'.format(comic_num, img_name) #File needs to be a PNG format
 with open(filename, 'wb') as out_file:
     shutil.copyfileobj(response.raw, out_file)
 
