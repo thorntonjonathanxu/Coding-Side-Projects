@@ -8,47 +8,44 @@
 from bs4 import BeautifulSoup
 import shutil
 import requests
-import re
+import datetime
 
 #Calls the website to pulldown HTML content
 # page = requests.get('https://www.oursuperadventure.com/')
 # content = page.text
 # soup = BeautifulSoup(content, 'html.parser')
 
-# print(content)
-# soup = BeautifulSoup('[<div id="comic"> <img src="https://www.oursuperadventure.com/wp-content/uploads/2019/09/OSA3-036-Sleepyhead.jpg" alt="Sleepyhead (30th September, 2019)" title="Sleepyhead (30th September, 2019)">	</div>]')
+# print()
 
-foo = soup.find_all(id="comic")
-tag = soup.img
-print(tag)
-# for line in foo:
-    # print(line)
+# raw_tag = soup.find("div", { "id" : "comic" }).find("img", recursive=False)
+# title = raw_tag.get('title')
+# img_src = raw_tag.get('src')
 
-# print(soup)
-#     #Meta tags contains the formal comic name and innumerated comic number.
-#     div_block = re.search('<div id="comic">\n(.*)\n</div>', content).group(1)
+title = 'Sleepyhead (30th September, 2019)'
+img_src = 'https://www.oursuperadventure.com/wp-content/uploads/2019/09/OSA3-036-Sleepyhead.jpg'
 
-#     # img_name = re.search('<meta property="og:title" content="(.+?)">', content).group(1) + '_2x.png'
-#     # comic_num = re.search('<meta property="og:url" content="https://xkcd.com/(.+?)/">', content).group(1)
+# print (raw_tag)
+print(title)
+print(img_src)
 
-#     # #Finds high res link off HTML call
-#     # img_link = 'https://imgs.xkcd.com/comics/' + re.search('<meta property="og:image" content="https://imgs.xkcd.com/comics/(.+?)_2x.png">', content).group(1) + '_2x.png'
-
-# except AttributeError:
-#     print('Failed to load in the data')
+#Need to pull date out of the 'title' of the comic
+#Use string manupulation to find the values between the parenthesesis
+foo = title.split('(')[1]
+foo = foo.split(')')[0]
+print(foo)
 
 
-# print(div_block)
 
-#Copied code from xkcd_bot.py
+#Use date library to convert string date to MM-dd-yyyy format
+
 
 # #Throws a request to pull down the image
 # print('Requesting image')
-# response = requests.get(img_link, stream=True)
+# response = requests.get(img_src, stream=True)
 
 # #Saves the file to a local directory with the name of the file.
-# print('Downloading Img')
-# filename = '{0} - {1}'.format(comic_num, img_name)
+# print('Downloading Image')
+# filename = '{0} - {1}'.format(date, img_name)
 # with open(filename, 'wb') as out_file:
 #     shutil.copyfileobj(response.raw, out_file)
 
