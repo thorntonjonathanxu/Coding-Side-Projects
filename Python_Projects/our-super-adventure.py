@@ -11,17 +11,18 @@ import shutil
 import requests
 
 #Calls the website to pulldown HTML content
-page = requests.get('https://www.oursuperadventure.com/')
+page = requests.get('https://www.oursuperadventure.com')
 content = page.text
 soup = BeautifulSoup(content, 'html.parser')
 
 #Pull out comic information from div with Id="comic"
-comic_tag = soup.find('div', { 'id' : 'comic' }).find('img', recursive=False)
-comic_name = comic_tag.get('title').split(' ')[0]
-img_src = comic_tag.get('src')
+comic_tag = soup.find('div', { 'id' : 'comic' })
+comic_name = comic_tag.find('img').get('title').split(' ')[0]
+comic_name = ''.join(e for e in comic_name if e.isalnum())
+img_src = comic_tag.find('img').get('src')
 date = soup.find('span',{'class' : 'post-date'}).string #Date is in a span class
 
-#Use datetime library to convert string date to YYYY-MM-dd format
+#Use datetime library to convert string date to YYYY-MM-dd format5
 d = datetime.strptime(date, '%B %d, %Y')
 date = d.strftime('%Y-%m-%d')
 
