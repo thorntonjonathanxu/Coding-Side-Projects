@@ -38,7 +38,7 @@ class Deck(object):
         return self.cards
     
     def getDeckSize(self):
-        print('The Deck has %s cards' % len(self.cards))
+        print(f'The Deck has {len(self.cards)!r} cards')
     
     def addCard(self,Card):
         new_card = Card
